@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package core.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.azc.ext.hp.com/onecloud/golang-service-quickstart/api/gen/go/core/v1;corev1";
+
+service UserAPI {
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+        option (google.api.http) = {
+            get: "/users/{user_id}"
+            response_body: "user"
+        };
+    }
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message GetUserRequest {
+    string user_id = 1;
+}
+
+message User {
+    string id = 1;
+    string name = 2;
+}

@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package platform.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "github.azc.ext.hp.com/onecloud/golang-service-quickstart/api/gen/go/platform/v1;platformv1";
+
+service ProjectAPI {
+    rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse) {
+        option (google.api.http) = {
+            post: "/projects"
+            body: "*"
+            response_body: "project"
+        };
+    }
+
+    rpc GetProject(GetProjectRequest) returns (GetProjectResponse) {
+        option (google.api.http) = {
+            get: "/projects/{project_id}"
+            response_body: "project"
+        };
+    }
+
+    rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse) {
+        option (google.api.http) = {
+            patch: "/projects/{project_id}"
+            body: "body"
+            response_body: "project"
+        };
+    }
+
+    rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse) {
+        option (google.api.http) = {
+            delete: "/projects/{project_id}"
+        };
+    }
+
+    rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse) {
+        option (google.api.http) = {
+            get: "/projects"
+            response_body: "*"
+        };
+    }
+}
+
+
+message DeleteProjectRequest {
+    string project_id = 1;
+}
+
+message DeleteProjectResponse {}
+
+
+message UpdateProjectRequest {
+    string project_id = 1;
+    message UpdateBody {
+        string name = 1;
+    }
+    UpdateBody body = 2;
+}
+
+message UpdateProjectResponse {
+    Project project = 1;
+}
+
+message GetProjectRequest {
+    string project_id = 1;
+}
+
+message GetProjectResponse {
+    Project project = 1;
+}
+
+message ListProjectsResponse {
+    int64 count = 1;
+    int64 limit = 2;
+    int64 offset = 3;
+    repeated Project elements = 4;
+}
+
+message ListProjectsRequest {
+    string name = 1;
+    int64 offset = 2;
+    int64 limit = 3;
+    repeated string order_by = 4;
+}
+
+
+message CreateProjectRequest {
+    string name = 1;
+}
+
+
+message CreateProjectResponse {
+    Project project = 1;
+}
+
+message Project {
+    string id = 1;
+    string name = 2;
+}
